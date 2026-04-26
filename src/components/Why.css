@@ -1,0 +1,135 @@
+.why {
+  padding: 120px 0;
+  background: var(--bg-primary);
+  position: relative;
+}
+
+.why__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.why__left {
+  position: sticky;
+  top: 100px;
+}
+
+.why__title {
+  font-size: clamp(28px, 3.8vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 20px;
+  margin-top: 12px;
+}
+
+.why__text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 48px;
+  max-width: 400px;
+}
+
+.why__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 24px;
+  border-left: 2px solid rgba(59,130,246,0.2);
+}
+
+.why__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.why__metric-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.why__metric-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.why__right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.why__pillar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  transition: all 0.3s ease;
+}
+
+.why__pillar:hover {
+  border-color: var(--blue-border);
+  background: var(--bg-card-hover);
+  transform: translateX(4px);
+}
+
+.why__pillar-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.why__pillar-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  background: rgba(37,99,235,0.1);
+  border: 1px solid rgba(59,130,246,0.18);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-pale);
+  margin-top: 2px;
+}
+
+.why__pillar-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--blue-pale);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.why__pillar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.why__pillar-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  padding-left: 58px;
+}
+
+@media (max-width: 900px) {
+  .why__layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  .why__left { position: static; }
+  .why { padding: 80px 0; }
+  .why__pillar-desc { padding-left: 0; }
+}
