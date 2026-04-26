@@ -1,19 +1,22 @@
 import './Process.css';
+import { useInView } from '../hooks/useInView';
 
 export default function Process({ tx }) {
   const { label, title, subtitle, steps } = tx;
+  const [headerRef, headerVisible] = useInView();
+  const [stepsRef, stepsVisible] = useInView();
 
   return (
     <section className="process" id="process">
       <div className="process__bg" aria-hidden="true" />
       <div className="container">
-        <div className="process__header">
+        <div ref={headerRef} className={`process__header reveal${headerVisible ? ' is-visible' : ''}`}>
           <span className="label-tag">{label}</span>
           <h2 className="process__title">{title}</h2>
           <p className="process__subtitle">{subtitle}</p>
         </div>
 
-        <div className="process__steps">
+        <div ref={stepsRef} className={`process__steps stagger${stepsVisible ? ' is-visible' : ''}`}>
           {steps.map((s, i) => (
             <div className="process__step" key={i}>
               <div className="process__step-left">

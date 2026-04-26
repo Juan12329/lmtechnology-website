@@ -1,4 +1,5 @@
 import './Services.css';
+import { useInView } from '../hooks/useInView';
 
 const ICONS = [
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
@@ -11,17 +12,19 @@ const ICONS = [
 
 export default function Services({ tx }) {
   const { label, title, subtitle, badge, items } = tx;
+  const [headerRef, headerVisible] = useInView();
+  const [gridRef, gridVisible] = useInView();
 
   return (
     <section className="services" id="services">
       <div className="container">
-        <div className="services__header">
+        <div ref={headerRef} className={`services__header reveal${headerVisible ? ' is-visible' : ''}`}>
           <span className="label-tag">{label}</span>
           <h2 className="services__title">{title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br/>}</span>)}</h2>
           <p className="services__subtitle">{subtitle}</p>
         </div>
 
-        <div className="services__grid">
+        <div ref={gridRef} className={`services__grid stagger${gridVisible ? ' is-visible' : ''}`}>
           {items.map((s, i) => (
             <div key={i} className={`service-card${i === 1 ? ' service-card--featured' : ''}`}>
               {i === 1 && <div className="service-card__badge">{badge}</div>}

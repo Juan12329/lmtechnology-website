@@ -1,4 +1,5 @@
 import './Why.css';
+import { useInView } from '../hooks/useInView';
 
 const ICONS = [
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="1.8"/><path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>,
@@ -9,12 +10,14 @@ const ICONS = [
 
 export default function Why({ tx }) {
   const { label, title, text, m1Val, m1Desc, m2Val, m2Desc, m3Val, m3Desc, pillars } = tx;
+  const [leftRef, leftVisible] = useInView();
+  const [rightRef, rightVisible] = useInView();
 
   return (
     <section className="why" id="why">
       <div className="container">
         <div className="why__layout">
-          <div className="why__left">
+          <div ref={leftRef} className={`why__left reveal-left${leftVisible ? ' is-visible' : ''}`}>
             <span className="label-tag">{label}</span>
             <h2 className="why__title">{title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br/>}</span>)}</h2>
             <p className="why__text">{text}</p>
@@ -28,7 +31,7 @@ export default function Why({ tx }) {
             </div>
           </div>
 
-          <div className="why__right">
+          <div ref={rightRef} className={`why__right stagger${rightVisible ? ' is-visible' : ''}`}>
             {pillars.map((p, i) => (
               <div className="why__pillar" key={i}>
                 <div className="why__pillar-header">

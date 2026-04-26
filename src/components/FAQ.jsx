@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import './FAQ.css';
+import { useInView } from '../hooks/useInView';
 
 export default function FAQ({ tx }) {
   const { label, title, subtitle, items } = tx;
   const [open, setOpen] = useState(null);
+  const [headerRef, headerVisible] = useInView();
+  const [listRef, listVisible] = useInView();
 
   return (
     <section className="faq" id="faq">
       <div className="container">
-        <div className="faq__header">
+        <div ref={headerRef} className={`faq__header reveal${headerVisible ? ' is-visible' : ''}`}>
           <span className="label-tag">{label}</span>
           <h2 className="faq__title">{title}</h2>
           <p className="faq__subtitle">{subtitle}</p>
         </div>
 
-        <div className="faq__list">
+        <div ref={listRef} className={`faq__list stagger${listVisible ? ' is-visible' : ''}`}>
           {items.map((f, i) => (
             <div
               key={i}
