@@ -24,7 +24,10 @@ export default function Process({ tx }) {
                 {i < steps.length - 1 && <div className="process__connector" />}
               </div>
               <div className="process__step-content">
-                <span className="process__phase">{s.phase}</span>
+                <div className="process__phase-row">
+                  <span className="process__phase">{s.phase}</span>
+                  {s.duration && <span className="process__duration">{s.duration}</span>}
+                </div>
                 <h3 className="process__step-title">{s.title}</h3>
                 <p className="process__step-desc">{s.desc}</p>
                 <div className="process__tags">

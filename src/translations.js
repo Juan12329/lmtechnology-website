@@ -45,10 +45,10 @@ export const t = {
       title: 'Cómo trabajamos',
       subtitle: 'Un proceso probado que minimiza el riesgo y maximiza el impacto de cada inversión tecnológica.',
       steps: [
-        { num: '01', phase: 'Diagnóstico', title: 'Entendemos tu operación', desc: 'Analizamos tus procesos actuales, identificamos cuellos de botella, mapeamos oportunidades tecnológicas y definimos el potencial de impacto.', tags: ['Auditoría de procesos', 'Análisis de datos', 'Benchmarking'] },
-        { num: '02', phase: 'Estrategia', title: 'Diseñamos el roadmap', desc: 'Construimos una hoja de ruta técnica y de negocio, priorizada por ROI. Cada iniciativa tiene objetivos claros, métricas de éxito y un cronograma realista.', tags: ['Hoja de ruta', 'KPIs definidos', 'Arquitectura técnica'] },
-        { num: '03', phase: 'Ejecución', title: 'Construimos y desplegamos', desc: 'Desarrollamos con sprints cortos y entregas frecuentes. Tu equipo ve progreso real cada semana. Sin sorpresas, sin retrasos injustificados.', tags: ['Sprints ágiles', 'Entrega continua', 'QA riguroso'] },
-        { num: '04', phase: 'Resultados', title: 'Medimos y escalamos', desc: 'Monitoreamos el impacto en tiempo real, optimizamos con base en datos y escalamos lo que funciona. Tu tecnología evoluciona con tu negocio.', tags: ['Métricas en tiempo real', 'Optimización continua', 'Escalamiento'] },
+        { num: '01', phase: 'Diagnóstico', duration: '4 semanas', title: 'Entendemos tu operación', desc: 'Analizamos tus procesos actuales, identificamos cuellos de botella, mapeamos oportunidades tecnológicas y definimos el potencial de impacto.', tags: ['Auditoría de procesos', 'Análisis de datos', 'Benchmarking'] },
+        { num: '02', phase: 'Estrategia', duration: '1–2 semanas', title: 'Diseñamos el roadmap', desc: 'Construimos una hoja de ruta técnica y de negocio, priorizada por ROI. Cada iniciativa tiene objetivos claros, métricas de éxito y un cronograma realista.', tags: ['Hoja de ruta', 'KPIs definidos', 'Arquitectura técnica'] },
+        { num: '03', phase: 'Ejecución', duration: '6–10 semanas', title: 'Construimos y desplegamos', desc: 'Desarrollamos con sprints cortos y entregas frecuentes. Tu equipo ve progreso real cada semana. Sin sorpresas, sin retrasos injustificados.', tags: ['Sprints ágiles', 'Entrega continua', 'QA riguroso'] },
+        { num: '04', phase: 'Resultados', duration: 'Continuo', title: 'Medimos y escalamos', desc: 'Monitoreamos el impacto en tiempo real, optimizamos con base en datos y escalamos lo que funciona. Tu tecnología evoluciona con tu negocio.', tags: ['Métricas en tiempo real', 'Optimización continua', 'Escalamiento'] },
       ],
     },
     solutions: {
@@ -186,10 +186,10 @@ export const t = {
       title: 'How we work',
       subtitle: 'A proven process that minimizes risk and maximizes the impact of every technology investment.',
       steps: [
-        { num: '01', phase: 'Discovery', title: 'We understand your operation', desc: 'We analyze your current processes, identify bottlenecks, map technology opportunities and define the potential impact of each initiative.', tags: ['Process audit', 'Data analysis', 'Benchmarking'] },
-        { num: '02', phase: 'Strategy', title: 'We design the roadmap', desc: 'We build a technical and business roadmap, prioritized by ROI. Each initiative has clear objectives, success metrics and a realistic timeline.', tags: ['Roadmap', 'Defined KPIs', 'Technical architecture'] },
-        { num: '03', phase: 'Execution', title: 'We build and deploy', desc: 'We develop with short sprints and frequent deliveries. Your team sees real progress every week. No surprises, no unjustified delays.', tags: ['Agile sprints', 'Continuous delivery', 'Rigorous QA'] },
-        { num: '04', phase: 'Results', title: 'We measure and scale', desc: 'We monitor impact in real time, optimize based on data and scale what works. Your technology evolves with your business.', tags: ['Real-time metrics', 'Continuous optimization', 'Scaling'] },
+        { num: '01', phase: 'Discovery', duration: '4 weeks', title: 'We understand your operation', desc: 'We analyze your current processes, identify bottlenecks, map technology opportunities and define the potential impact of each initiative.', tags: ['Process audit', 'Data analysis', 'Benchmarking'] },
+        { num: '02', phase: 'Strategy', duration: '1–2 weeks', title: 'We design the roadmap', desc: 'We build a technical and business roadmap, prioritized by ROI. Each initiative has clear objectives, success metrics and a realistic timeline.', tags: ['Roadmap', 'Defined KPIs', 'Technical architecture'] },
+        { num: '03', phase: 'Execution', duration: '6–10 weeks', title: 'We build and deploy', desc: 'We develop with short sprints and frequent deliveries. Your team sees real progress every week. No surprises, no unjustified delays.', tags: ['Agile sprints', 'Continuous delivery', 'Rigorous QA'] },
+        { num: '04', phase: 'Results', duration: 'Ongoing', title: 'We measure and scale', desc: 'We monitor impact in real time, optimize based on data and scale what works. Your technology evolves with your business.', tags: ['Real-time metrics', 'Continuous optimization', 'Scaling'] },
       ],
     },
     solutions: {

@@ -1,6 +1,34 @@
 import { useState } from 'react';
 import './FreeClasses.css';
 
+const IconLive = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8"/>
+    <path d="M6.34 6.34a8 8 0 1 0 11.32 11.32M6.34 6.34A8 8 0 0 1 17.66 17.66" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor"/>
+  </svg>
+);
+
+const IconVideo = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="6" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+    <path d="M16 10l5-3v10l-5-3V10z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
+  </svg>
+);
+
+const IconFree = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
+  </svg>
+);
+
+const IconBusiness = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+    <path d="M9 3v18M3 9h18M3 15h18" stroke="currentColor" strokeWidth="1.8"/>
+  </svg>
+);
+
 const COMING = {
   es: {
     badge: 'Próximamente',
@@ -12,10 +40,10 @@ const COMING = {
     notifyBtn: 'Notificarme',
     notifyOk: '¡Listo! Te avisamos en cuanto lancemos.',
     features: [
-      { icon: '🎯', text: 'Clases en vivo con Q&A' },
-      { icon: '📹', text: 'Grabaciones disponibles 24/7' },
-      { icon: '🆓', text: '100% gratuitas' },
-      { icon: '🏢', text: 'Enfocadas en casos empresariales' },
+      { icon: <IconLive />, text: 'Clases en vivo con Q&A' },
+      { icon: <IconVideo />, text: 'Grabaciones disponibles 24/7' },
+      { icon: <IconFree />, text: '100% gratuitas' },
+      { icon: <IconBusiness />, text: 'Enfocadas en casos empresariales' },
     ],
   },
   en: {
@@ -26,12 +54,12 @@ const COMING = {
     notifyLabel: 'Notify me when available',
     notifyPh: 'your@email.com',
     notifyBtn: 'Notify me',
-    notifyOk: 'Done! We\'ll let you know when we launch.',
+    notifyOk: "Done! We'll let you know when we launch.",
     features: [
-      { icon: '🎯', text: 'Live classes with Q&A' },
-      { icon: '📹', text: 'Recordings available 24/7' },
-      { icon: '🆓', text: '100% free' },
-      { icon: '🏢', text: 'Focused on business cases' },
+      { icon: <IconLive />, text: 'Live classes with Q&A' },
+      { icon: <IconVideo />, text: 'Recordings available 24/7' },
+      { icon: <IconFree />, text: '100% free' },
+      { icon: <IconBusiness />, text: 'Focused on business cases' },
     ],
   },
 };
