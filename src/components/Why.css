@@ -33,29 +33,149 @@
   font-size: 16px;
   color: var(--text-3);
   line-height: 1.78;
-  margin-bottom: 48px;
+  margin-bottom: 28px;
   max-width: 400px;
 }
 
-.why__metrics {
+/* ─── Automation Flow Widget ─── */
+.why__flow {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.why__flow-header {
   display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding-left: 24px;
-  border-left: 2px solid var(--border-blue);
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
 }
-.why__metric { display: flex; flex-direction: column; gap: 4px; }
-.why__metric-val {
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--blue);
-  letter-spacing: -0.03em;
-  line-height: 1;
+
+.why__flow-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  padding: 3px 9px;
+  border-radius: 100px;
 }
-.why__metric-desc {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
+
+.why__flow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+.why__flow-caption {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+/* Flow items */
+.flow-item { display: flex; flex-direction: column; }
+
+.flow-node {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.flow-node:hover { border-color: var(--border-blue); box-shadow: var(--shadow-sm); }
+
+.flow-node__icon {
+  width: 32px; height: 32px; min-width: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--ease-spring);
+}
+.flow-node:hover .flow-node__icon { transform: scale(1.1); }
+
+.flow-node--blue   .flow-node__icon { background: rgba(37,99,235,0.08);  border-color: rgba(37,99,235,0.2);  color: #2563eb; }
+.flow-node--violet .flow-node__icon { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.2); color: #7c3aed; }
+.flow-node--teal   .flow-node__icon { background: rgba(8,145,178,0.08);  border-color: rgba(8,145,178,0.2);  color: #0891b2; }
+.flow-node--green  .flow-node__icon { background: rgba(5,150,105,0.08);  border-color: rgba(5,150,105,0.2);  color: #059669; }
+
+.flow-node__label {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.flow-node__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.flow-badge--blue       { color: #2563eb; background: rgba(37,99,235,0.08);  border: 1px solid rgba(37,99,235,0.2); }
+.flow-badge--processing { color: #7c3aed; background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); }
+.flow-badge--teal       { color: #0891b2; background: rgba(8,145,178,0.08);  border: 1px solid rgba(8,145,178,0.2); }
+.flow-badge--green      { color: #059669; background: rgba(5,150,105,0.08);  border: 1px solid rgba(5,150,105,0.2); }
+
+.flow-spinner {
+  width: 8px; height: 8px;
+  border: 1.5px solid rgba(124,58,237,0.25);
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: flowSpin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes flowSpin { to { transform: rotate(360deg); } }
+
+/* Connector: animated dots travel down the line */
+.flow-conn {
+  position: relative;
+  margin-left: 27px; /* node-padding(12) + half-icon(16) - half-line(0.75) ≈ 27px */
+  width: 1.5px;
+  height: 24px;
+  background: linear-gradient(to bottom, rgba(37,99,235,0.25), rgba(37,99,235,0.03));
+  overflow: visible;
+}
+
+.flow-conn__dot {
+  position: absolute;
+  left: -3px; /* center 8px dot on 1.5px line */
+  top: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 7px rgba(37,99,235,0.55);
+  opacity: 0;
+  animation: flowDrop 1.7s ease-in-out infinite;
+}
+
+@keyframes flowDrop {
+  0%   { top: 0;           opacity: 0; }
+  8%   {                   opacity: 1; }
+  85%  {                   opacity: 1; }
+  100% { top: calc(100% - 8px); opacity: 0; }
 }
 
 /* Pillars */

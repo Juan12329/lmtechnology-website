@@ -8,8 +8,39 @@ const ICONS = [
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
 ];
 
+const FLOW = [
+  {
+    cls: 'blue',
+    icon: <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" strokeWidth="1.8"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" stroke="currentColor" strokeWidth="1.8"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" stroke="currentColor" strokeWidth="1.8"/></svg>,
+    label: 'CRM · Lead entrante',
+    status: 'Detectado',
+    statusCls: 'blue',
+  },
+  {
+    cls: 'violet',
+    icon: <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 7.76a6 6 0 0 0 0 8.49" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>,
+    label: 'Motor de IA',
+    status: 'Procesando...',
+    statusCls: 'processing',
+  },
+  {
+    cls: 'teal',
+    icon: <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/></svg>,
+    label: 'Respuesta automática',
+    status: 'Email + WhatsApp',
+    statusCls: 'teal',
+  },
+  {
+    cls: 'green',
+    icon: <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/><polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+    label: 'Lead calificado',
+    status: '+35% conversión',
+    statusCls: 'green',
+  },
+];
+
 export default function Why({ tx }) {
-  const { label, title, text, m1Val, m1Desc, m2Val, m2Desc, m3Val, m3Desc, pillars } = tx;
+  const { label, title, text, pillars } = tx;
   const [leftRef, leftVisible] = useInView();
   const [rightRef, rightVisible] = useInView();
 
@@ -21,11 +52,31 @@ export default function Why({ tx }) {
             <span className="label-tag">{label}</span>
             <h2 className="why__title">{title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && <br/>}</span>)}</h2>
             <p className="why__text">{text}</p>
-            <div className="why__metrics">
-              {[{val: m1Val, desc: m1Desc}, {val: m2Val, desc: m2Desc}, {val: m3Val, desc: m3Desc}].map(m => (
-                <div className="why__metric" key={m.val}>
-                  <span className="why__metric-val">{m.val}</span>
-                  <span className="why__metric-desc">{m.desc}</span>
+
+            <div className="why__flow">
+              <div className="why__flow-header">
+                <span className="why__flow-live">
+                  <span className="why__flow-dot" />
+                  Live
+                </span>
+                <span className="why__flow-caption">Automatización activa</span>
+              </div>
+              {FLOW.map((node, i) => (
+                <div key={i} className="flow-item">
+                  <div className={`flow-node flow-node--${node.cls}`}>
+                    <div className="flow-node__icon">{node.icon}</div>
+                    <span className="flow-node__label">{node.label}</span>
+                    <span className={`flow-node__badge flow-badge--${node.statusCls}`}>
+                      {node.statusCls === 'processing' && <span className="flow-spinner" />}
+                      {node.status}
+                    </span>
+                  </div>
+                  {i < FLOW.length - 1 && (
+                    <div className="flow-conn">
+                      <div className="flow-conn__dot" style={{ animationDelay: `${i * 0.55}s` }} />
+                      <div className="flow-conn__dot" style={{ animationDelay: `${i * 0.55 + 0.85}s` }} />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
