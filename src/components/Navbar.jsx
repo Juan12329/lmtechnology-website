@@ -4,6 +4,7 @@ import './Navbar.css';
 const NAV_LINKS = {
   es: [
     { label: 'Servicios', href: '#services' },
+    { label: 'Confianza', href: '#trusted' },
     { label: 'Clases gratis', href: '#free-classes' },
     { label: 'Videos', href: '#free-videos' },
     { label: 'Proceso', href: '#process' },
@@ -11,6 +12,7 @@ const NAV_LINKS = {
   ],
   en: [
     { label: 'Services', href: '#services' },
+    { label: 'Trusted by', href: '#trusted' },
     { label: 'Free Classes', href: '#free-classes' },
     { label: 'Videos', href: '#free-videos' },
     { label: 'Process', href: '#process' },

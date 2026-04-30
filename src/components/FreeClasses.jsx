@@ -64,7 +64,7 @@ const COMING = {
   },
 };
 
-export default function FreeClasses({ tx, lang }) {
+export default function FreeClasses({ lang }) {
   const c = COMING[lang] || COMING.es;
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);

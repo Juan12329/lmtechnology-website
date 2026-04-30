@@ -40,6 +40,14 @@ export const t = {
         { num: '04', title: 'Velocidad sin sacrificar calidad', desc: 'Entregamos en ciclos cortos. Cada sprint agrega valor tangible. Tu empresa no espera meses para ver resultados — los ve en semanas.' },
       ],
     },
+    trusted: {
+      label: 'Empresas que confían en nosotros',
+      title: 'Aliados tecnológicos para equipos que buscan operar mejor',
+      subtitle: 'Acompañamos a compañías de distintos sectores con soluciones de IA, automatización y software hechas para producción.',
+      companies: [
+        { name: 'TuCrédito', type: 'Finanzas / Crédito', logo: 'tucredito' },
+      ],
+    },
     process: {
       label: 'Proceso',
       title: 'Cómo trabajamos',
@@ -179,6 +187,14 @@ export const t = {
         { num: '02', title: 'AI that ships to production', desc: 'We don\'t deliver demos or prototypes that never scale. We build robust systems that operate in real environments, with real data and provable results.' },
         { num: '03', title: 'Extension of your team', desc: 'We operate as a trusted technology partner, not an outside vendor. Direct communication, clear sprints, no unnecessary management layers.' },
         { num: '04', title: 'Speed without sacrificing quality', desc: 'We deliver in short cycles. Each sprint adds tangible value. Your company doesn\'t wait months for results — it sees them in weeks.' },
+      ],
+    },
+    trusted: {
+      label: 'Companies that trust us',
+      title: 'Technology partners for teams that want to operate better',
+      subtitle: 'We support companies across industries with AI, automation, and software solutions built for production.',
+      companies: [
+        { name: 'TuCrédito', type: 'Finance / Credit', logo: 'tucredito' },
       ],
     },
     process: {

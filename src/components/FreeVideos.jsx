@@ -42,7 +42,7 @@ const COMING = {
   },
 };
 
-export default function FreeVideos({ tx, lang }) {
+export default function FreeVideos({ lang }) {
   const c = COMING[lang] || COMING.es;
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);

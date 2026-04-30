@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Why from './components/Why';
+import TrustedBy from './components/TrustedBy';
 import Process from './components/Process';
 import Solutions from './components/Solutions';
 import FreeClasses from './components/FreeClasses';
@@ -23,6 +24,7 @@ function App() {
         <Hero tx={tx.hero} />
         <Services tx={tx.services} />
         <Why tx={tx.why} />
+        <TrustedBy tx={tx.trusted} />
         <Process tx={tx.process} />
         <Solutions tx={tx.solutions} lang={lang} />
         <FreeClasses tx={tx.freeClasses} lang={lang} />
