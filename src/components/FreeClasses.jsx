@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { sendAvailabilityNotification } from '../emailNotifications';
 import './FreeClasses.css';
 
 const IconLive = () => (
@@ -38,7 +39,9 @@ const COMING = {
     notifyLabel: 'Avísame cuando estén disponibles',
     notifyPh: 'tu@email.com',
     notifyBtn: 'Notificarme',
+    notifyLoading: 'Enviando...',
     notifyOk: '¡Listo! Te avisamos en cuanto lancemos.',
+    notifyError: 'No pudimos registrar tu correo. Intenta de nuevo.',
     features: [
       { icon: <IconLive />, text: 'Clases en vivo con Q&A' },
       { icon: <IconVideo />, text: 'Grabaciones disponibles 24/7' },
@@ -54,7 +57,9 @@ const COMING = {
     notifyLabel: 'Notify me when available',
     notifyPh: 'your@email.com',
     notifyBtn: 'Notify me',
+    notifyLoading: 'Sending...',
     notifyOk: "Done! We'll let you know when we launch.",
+    notifyError: 'We could not register your email. Please try again.',
     features: [
       { icon: <IconLive />, text: 'Live classes with Q&A' },
       { icon: <IconVideo />, text: 'Recordings available 24/7' },
@@ -68,10 +73,22 @@ export default function FreeClasses({ lang }) {
   const c = COMING[lang] || COMING.es;
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (email) setSent(true);
+    if (!email) return;
+    setLoading(true);
+    setError('');
+    try {
+      await sendAvailabilityNotification({ email, lang, source: 'free-classes' });
+      setSent(true);
+    } catch {
+      setError(c.notifyError);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,8 +126,11 @@ export default function FreeClasses({ lang }) {
                     onChange={e => setEmail(e.target.value)}
                     className="cs-notify-input"
                   />
-                  <button type="submit" className="cs-notify-btn">{c.notifyBtn}</button>
+                  <button type="submit" className="cs-notify-btn" disabled={loading}>
+                    {loading ? c.notifyLoading : c.notifyBtn}
+                  </button>
                 </div>
+                {error && <p className="cs-notify-error">{error}</p>}
               </form>
             ) : (
               <div className="cs-notify-ok">

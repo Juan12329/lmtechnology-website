@@ -1,10 +1,6 @@
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
+import { sendContactNotification } from '../emailNotifications';
 import './Contact.css';
-
-const EJS_SERVICE  = 'service_9xwu8hl';
-const EJS_TEMPLATE = 'template_tkrb6us';
-const EJS_KEY      = 'k18wxP9UHyGrOQd3r';
 
 const SERVICES_ES = ['Consultoría de IA', 'Automatización de procesos', 'Desarrollo de software', 'Agente IA / Chatbot', 'Generación de leads', 'Capacitación corporativa'];
 const SERVICES_EN = ['AI Consulting', 'Process automation', 'Software development', 'AI Agent / Chatbot', 'Lead generation', 'Corporate AI training'];
@@ -23,15 +19,7 @@ export default function Contact({ tx, lang }) {
     setLoading(true);
     setError('');
     try {
-      await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
-        name: form.name,
-        company: form.company,
-        email: form.email,
-        phone: form.phone,
-        service: form.service,
-        company_size: form.size,
-        message: form.message,
-      }, EJS_KEY);
+      await sendContactNotification(form, lang);
       setSent(true);
     } catch {
       setError(lang === 'es' ? 'Error al enviar. Por favor intenta de nuevo.' : 'Send failed. Please try again.');

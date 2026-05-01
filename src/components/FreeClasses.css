@@ -151,6 +151,18 @@
   background: var(--blue-light);
   transform: translateY(-1px);
 }
+.cs-notify-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+.cs-notify-error {
+  margin: 8px 0 0;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+}
 
 .cs-notify-ok {
   display: flex;
