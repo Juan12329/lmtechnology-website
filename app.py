@@ -85,6 +85,9 @@ def init_db():
                 company_size text,
                 message text not null,
                 lang text not null default 'es',
+                lead_source text not null default 'contact-form',
+                ip_address text,
+                user_agent text,
                 status text not null default 'new'
             )
         """)
@@ -95,9 +98,16 @@ def init_db():
                 email text not null,
                 lang text not null default 'es',
                 source text not null,
+                ip_address text,
+                user_agent text,
                 status text not null default 'new'
             )
         """)
+        ensure_column(conn, "contact_leads", "lead_source", "text not null default 'contact-form'")
+        ensure_column(conn, "contact_leads", "ip_address", "text")
+        ensure_column(conn, "contact_leads", "user_agent", "text")
+        ensure_column(conn, "notification_leads", "ip_address", "text")
+        ensure_column(conn, "notification_leads", "user_agent", "text")
         conn.execute("""
             create index if not exists contact_leads_created_at_idx
             on contact_leads (created_at desc)
@@ -106,6 +116,12 @@ def init_db():
             create index if not exists notification_leads_created_at_idx
             on notification_leads (created_at desc)
         """)
+
+
+def ensure_column(conn, table, column, definition):
+    columns = {row[1] for row in conn.execute(f"pragma table_info({table})")}
+    if column not in columns:
+        conn.execute(f"alter table {table} add column {column} {definition}")
 
 
 def is_email(value):
@@ -117,7 +133,16 @@ def require_smtp():
         raise RuntimeError("SMTP_PASS is not configured.")
 
 
-def insert_contact_lead(form, lang):
+def get_request_meta():
+    forwarded_for = request.headers.get("X-Forwarded-For", "")
+    ip_address = forwarded_for.split(",", 1)[0].strip() or request.remote_addr
+    return {
+        "ip_address": ip_address,
+        "user_agent": request.headers.get("User-Agent"),
+    }
+
+
+def insert_contact_lead(form, lang, meta):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.execute(
             """
@@ -129,8 +154,11 @@ def insert_contact_lead(form, lang):
                 service,
                 company_size,
                 message,
-                lang
-            ) values (?, ?, ?, ?, ?, ?, ?, ?)
+                lang,
+                lead_source,
+                ip_address,
+                user_agent
+            ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 form["name"],
@@ -141,22 +169,27 @@ def insert_contact_lead(form, lang):
                 form.get("size") or None,
                 form["message"],
                 lang,
+                "contact-form",
+                meta.get("ip_address"),
+                meta.get("user_agent"),
             ),
         )
         return cursor.lastrowid
 
 
-def insert_notification_lead(email, lang, source):
+def insert_notification_lead(email, lang, source, meta):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.execute(
             """
             insert into notification_leads (
                 email,
                 lang,
-                source
-            ) values (?, ?, ?)
+                source,
+                ip_address,
+                user_agent
+            ) values (?, ?, ?, ?, ?)
             """,
-            (email, lang, source),
+            (email, lang, source, meta.get("ip_address"), meta.get("user_agent")),
         )
         return cursor.lastrowid
 
@@ -199,6 +232,7 @@ def contact():
     if not form.get("name") or not form.get("company") or not is_email(form.get("email")) or not form.get("message"):
         return jsonify({"message": "Missing required contact fields."}), 400
 
+    meta = get_request_meta()
     lead_html = f"""
         <h2>Nuevo lead desde LM Technology</h2>
         {detail_row("Nombre", form.get("name"))}
@@ -208,6 +242,8 @@ def contact():
         {detail_row("Servicio", form.get("service"))}
         {detail_row("Tamano de empresa", form.get("size"))}
         {detail_row("Mensaje", form.get("message"))}
+        {detail_row("Idioma", lang)}
+        {detail_row("Origen", "contact-form")}
     """
     user_html = f"""
         <h2>{html.escape(texts["contact_subject"])}</h2>
@@ -216,11 +252,21 @@ def contact():
     """
 
     try:
-        lead_id = insert_contact_lead(form, lang)
+        lead_id = insert_contact_lead(form, lang, meta)
         send_email(
             BUSINESS_EMAIL,
             texts["contact_lead_subject"],
-            f"Nuevo lead: {form.get('name')} - {form.get('email')} - {form.get('company')}\n{form.get('message')}",
+            (
+                f"Nuevo lead #{lead_id}\n"
+                f"Nombre: {form.get('name')}\n"
+                f"Empresa: {form.get('company')}\n"
+                f"Email: {form.get('email')}\n"
+                f"Telefono: {form.get('phone') or '-'}\n"
+                f"Servicio: {form.get('service') or '-'}\n"
+                f"Tamano de empresa: {form.get('size') or '-'}\n"
+                f"Idioma: {lang}\n\n"
+                f"Mensaje:\n{form.get('message')}"
+            ),
             lead_html,
             reply_to=form.get("email"),
         )
@@ -252,11 +298,13 @@ def notify():
     if not is_email(email):
         return jsonify({"message": "Invalid email."}), 400
 
+    meta = get_request_meta()
     source_label = "videos gratuitos" if source == "free-videos" else "clases gratuitas"
     lead_html = f"""
         <h2>Nuevo interesado</h2>
         <p><strong>Email:</strong> {html.escape(email)}</p>
         <p><strong>Origen:</strong> {html.escape(source_label)}</p>
+        <p><strong>Idioma:</strong> {html.escape(lang)}</p>
     """
     user_html = f"""
         <h2>{html.escape(texts["notify_subject"])}</h2>
@@ -265,11 +313,11 @@ def notify():
     """
 
     try:
-        lead_id = insert_notification_lead(email, lang, source)
+        lead_id = insert_notification_lead(email, lang, source, meta)
         send_email(
             BUSINESS_EMAIL,
             texts["notify_lead_subject"],
-            f"Nuevo interesado: {email}\nOrigen: {source_label}",
+            f"Nuevo interesado #{lead_id}\nEmail: {email}\nOrigen: {source_label}\nIdioma: {lang}",
             lead_html,
             reply_to=email,
         )
