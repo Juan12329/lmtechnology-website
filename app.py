@@ -41,9 +41,31 @@ SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR / "data"))
 DB_PATH = Path(os.environ.get("DB_PATH", DATA_DIR / "lmtechnology.sqlite"))
 DIST_DIR = BASE_DIR / "dist"
+DEFAULT_ALLOWED_ORIGINS = (
+    "https://lmtechnology.io,"
+    "https://www.lmtechnology.io,"
+    "http://localhost:5173,"
+    "http://127.0.0.1:5173"
+)
+ALLOWED_ORIGINS = {
+    origin.strip()
+    for origin in os.environ.get("CORS_ALLOWED_ORIGINS", DEFAULT_ALLOWED_ORIGINS).split(",")
+    if origin.strip()
+}
 
 
 app = Flask(__name__, static_folder=None)
+
+
+@app.after_request
+def add_cors_headers(response):
+    origin = request.headers.get("Origin")
+    if origin in ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Vary"] = "Origin"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
 
 COPY = {
